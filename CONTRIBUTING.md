@@ -29,11 +29,11 @@ It should be as simple as this (run from the root of the repository):
 ```bash
 docker run -v $(pwd):/src/grpc-gateway --rm docker.pkg.github.com/grpc-ecosystem/grpc-gateway/build-env:1.15 \
     /bin/bash -c 'cd /src/grpc-gateway && \
-        make realclean && \
-        make examples && \
-        make testproto'
+        make install && \
+        make clean && \
+        make generate'
 docker run -itv $(pwd):/grpc-gateway -w /grpc-gateway --entrypoint /bin/bash --rm \
-    l.gcr.io/google/bazel -c '\
+    l.gcr.io/google/bazel:3.5.0 -c '\
         bazel run :gazelle -- update-repos -from_file=go.mod -to_macro=repositories.bzl%go_repositories && \
         bazel run :gazelle && \
         bazel run :buildifier'
